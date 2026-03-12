@@ -13,7 +13,8 @@ export class QuoteService {
     ){}
 
     async createQuote(createQuoteDto : CreateQuoteDto){
-        return this.quoteModule.create(createQuoteDto);
+        return this.quoteModule.create(createQuoteDto)
     }
+
 
 }
