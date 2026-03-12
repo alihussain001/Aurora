@@ -16,5 +16,8 @@ export class QuoteService {
         return this.quoteModule.create(createQuoteDto)
     }
 
+    async findAllQuote(){
+      return this.quoteModule.find()
+    }
 
 }
