@@ -7,17 +7,15 @@ import { CreateQuoteDto } from './DTO/create-quotes.dto';
 
 @Injectable()
 export class QuoteService {
-    constructor(
-        @InjectModel(Quote.name)
-        private quoteModule : Model<QuoteModule>,
-    ){}
+  constructor(
+    @InjectModel(Quote.name)
+    private quoteModule: Model<QuoteModule>,
+  ) {}
 
-    async createQuote(createQuoteDto : CreateQuoteDto){
-        return this.quoteModule.create(createQuoteDto)
-    }
+  async createQuote(createQuoteDto: CreateQuoteDto) {
+    return this.quoteModule.create(createQuoteDto);
+  }
 
-    async findAllQuote(){
-      return this.quoteModule.find()
-    }
-
+  
+  
 }

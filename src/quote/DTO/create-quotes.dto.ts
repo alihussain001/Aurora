@@ -1,4 +1,4 @@
-import { IsString } from "class-validator";
+import { IsArray, IsString } from "class-validator";
 
 export class CreateQuoteDto{
     @IsString()
@@ -9,4 +9,7 @@ export class CreateQuoteDto{
 
     @IsString()
     author!:string;
+
+    @IsArray()
+    category
 }

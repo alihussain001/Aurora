@@ -11,8 +11,6 @@ export class QuoteController {
         return this.quoteService.createQuote(createQuoteDto)
     }
 
-    @Get()
-    getAllQuote(){
-        return this.quoteService.findAllQuote();
-    }
+  
+    
 }
