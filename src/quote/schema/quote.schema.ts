@@ -14,6 +14,9 @@ export class Quote{
     @Prop()
     author!: string;
 
+    @Prop()
+    category!: string
+
 }
 
 export const QuoteSchema = SchemaFactory.createForClass(Quote);

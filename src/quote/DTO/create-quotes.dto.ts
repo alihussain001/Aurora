@@ -10,6 +10,6 @@ export class CreateQuoteDto{
     @IsString()
     author!:string;
 
-    @IsArray()
-    category
+    @IsString()
+    category!: string
 }

@@ -11,6 +11,14 @@ export class GetQuotesQueryDto{
     category?: string;
 
     @IsOptional()
+    @IsString()
+    author?: string;
+
+    @IsOptional()
+    @IsString()
+    title?: string;
+
+    @IsOptional()
     @Type(() => Number)
     @IsInt()
     @Min(1)

@@ -4,6 +4,8 @@ import { Quote } from './schema/quote.schema';
 import { Model } from 'mongoose';
 import { QuoteModule } from './quote.module';
 import { CreateQuoteDto } from './DTO/create-quotes.dto';
+import { GetQuotesQueryDto } from './DTO/get-quotes-query.dto';
+import { filter } from 'rxjs';
 
 @Injectable()
 export class QuoteService {
@@ -16,6 +18,18 @@ export class QuoteService {
     return this.quoteModule.create(createQuoteDto);
   }
 
-  
+  async findAllQuotes(query: GetQuotesQueryDto){
+    const filter: any = {};
+    if(query.category){
+      filter.category = query.category;
+    }
+    if(query.author){
+      filter.author = query.author;
+    }
+    if(query.title){
+      filter.title = query.title
+    }
+    return this.quoteModule.find(filter);
+  }
   
 }
