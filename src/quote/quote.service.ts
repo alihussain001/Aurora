@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Quote } from './schema/quote.schema';
 import { Model } from 'mongoose';
@@ -18,10 +18,11 @@ export class QuoteService {
     return this.quoteModule.create(createQuoteDto);
   }
 
-  async findAllQuotes(query: GetQuotesQueryDto){
-    const filter: any = {};
+  async getAllQuotes(query : GetQuotesQueryDto){
+    const filter : any = {};
+
     if(query.category){
-      filter.category = query.category;
+      filter.category = query.category
     }
     if(query.author){
       filter.author = query.author;
@@ -29,7 +30,16 @@ export class QuoteService {
     if(query.title){
       filter.title = query.title
     }
+    if(query.search){
+      filter.$or = [
+        { title: {$regex: query.search, $options: "i"}},
+        {author: {$regex: query.search, $options: "i"}},
+        {category:{$regex: query.search, $options: "i"}}
+      ];
+    }else{
+      throw new NotFoundException("Query not found")
+    }
     return this.quoteModule.find(filter);
   }
-  
+
 }

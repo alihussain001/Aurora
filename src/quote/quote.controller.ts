@@ -14,7 +14,7 @@ export class QuoteController {
 
   @Get()
   findAllQuotes(@Query() query: GetQuotesQueryDto){
-    return this.quoteService.findAllQuotes(query);
+    return this.quoteService.getAllQuotes(query);
   }
     
 }
