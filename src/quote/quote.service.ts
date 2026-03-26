@@ -36,10 +36,19 @@ export class QuoteService {
         {author: {$regex: query.search, $options: "i"}},
         {category:{$regex: query.search, $options: "i"}}
       ];
-    }else{
-      throw new NotFoundException("Query not found")
     }
-    return this.quoteModule.find(filter);
+
+    
+    const page = Number(query.page) || 1
+    const limit = Number(query.limit) || 10;
+
+    const skip = (page -1) * limit;
+
+    return this.quoteModule
+    .find(filter)
+    .skip(skip)
+    .limit(limit);
+
   }
 
 }
