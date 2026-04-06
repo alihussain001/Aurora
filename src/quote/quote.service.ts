@@ -50,7 +50,7 @@ export class QuoteService {
     .sort({creatdeAt: -1});
   }
 
-  async updatedQuote(id: string, updatedQuoteDto: UpdateQuoteDto){
+  async updateQuote(id: string, updatedQuoteDto: UpdateQuoteDto){
     const updatedQuote = await this.quoteModule.findByIdAndUpdate(
       id,
       updatedQuoteDto,
