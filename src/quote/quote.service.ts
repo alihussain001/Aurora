@@ -1,11 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Query } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Quote } from './schema/quote.schema';
 import { Model } from 'mongoose';
 import { QuoteModule } from './quote.module';
 import { CreateQuoteDto } from './DTO/create-quotes.dto';
 import { GetQuotesQueryDto } from './DTO/get-quotes-query.dto';
-import { filter } from 'rxjs';
 
 @Injectable()
 export class QuoteService {
@@ -19,36 +18,35 @@ export class QuoteService {
   }
 
   async getAllQuotes(query : GetQuotesQueryDto){
-    const filter : any = {};
+    const filter : any = {}
 
     if(query.category){
-      filter.category = query.category
+      filter.category = query.category;
     }
     if(query.author){
       filter.author = query.author;
     }
     if(query.title){
-      filter.title = query.title
+      filter.title = query.title;
     }
     if(query.search){
       filter.$or = [
-        { title: {$regex: query.search, $options: "i"}},
+        {title: {$regex: query.search, $options: "i"}},
         {author: {$regex: query.search, $options: "i"}},
-        {category:{$regex: query.search, $options: "i"}}
+        {content: {$regex: query.search, $options: "i"}},
       ];
     }
 
-    
-    const page = Number(query.page) || 1
-    const limit = Number(query.limit) || 10;
+    const page = Number(query.page) || 1;
+    const limit = Number(query.limit) || 5;
 
-    const skip = (page -1) * limit;
+    const skip = (page - 1) * limit;
 
     return this.quoteModule
     .find(filter)
     .skip(skip)
-    .limit(limit);
-
+    .limit(limit)
+    .sort({creatdeAt: -1});
   }
 
 }
