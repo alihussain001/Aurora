@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 import { QuoteModule } from './quote.module';
 import { CreateQuoteDto } from './DTO/create-quotes.dto';
 import { GetQuotesQueryDto } from './DTO/get-quotes-query.dto';
+import { UpdateQuoteDto } from './DTO/update-quote.dto';
 
 @Injectable()
 export class QuoteService {
@@ -49,4 +50,16 @@ export class QuoteService {
     .sort({creatdeAt: -1});
   }
 
+  async updatedQuote(id: string, updatedQuoteDto: UpdateQuoteDto){
+    const updatedQuote = await this.quoteModule.findByIdAndUpdate(
+      id,
+      updatedQuoteDto,
+      {new : true}
+    );
+    if(!updatedQuote){
+      throw new NotFoundException("Quote not found!")
+    };
+
+    return updatedQuote;
+  }
 }
