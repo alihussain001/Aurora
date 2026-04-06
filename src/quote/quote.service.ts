@@ -2,10 +2,10 @@ import { Injectable, NotFoundException, Query } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Quote } from './schema/quote.schema';
 import { Model } from 'mongoose';
-import { QuoteModule } from './quote.module';
 import { CreateQuoteDto } from './DTO/create-quotes.dto';
 import { GetQuotesQueryDto } from './DTO/get-quotes-query.dto';
 import { UpdateQuoteDto } from './DTO/update-quote.dto';
+import { QuoteModule } from './quote.module';
 
 @Injectable()
 export class QuoteService {
@@ -25,7 +25,7 @@ export class QuoteService {
       filter.category = query.category;
     }
     if(query.author){
-      filter.author = query.author;
+      filter.author = {$regex: query.author, $options: 'i'};
     }
     if(query.title){
       filter.title = query.title;
@@ -54,12 +54,24 @@ export class QuoteService {
     const updatedQuote = await this.quoteModule.findByIdAndUpdate(
       id,
       updatedQuoteDto,
-      {new : true}
+      {returnDocument: 'after'}
     );
     if(!updatedQuote){
       throw new NotFoundException("Quote not found!")
     };
 
     return updatedQuote;
+  }
+
+  async deleteQuote(id:string){
+    const deletedQuote = await this.quoteModule.findByIdAndDelete(id);
+
+    if(!deletedQuote){
+      throw new NotFoundException('Quote not found!')
+    }
+
+    return {
+      message: "Quote deleted successfully!",
+    };
   }
 }
